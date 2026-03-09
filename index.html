@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management Form</title>
+    <style>
+        table { border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid black; padding: 8px; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <h2>Student Management Form</h2>
+    <table>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" id="name"></td>
+        </tr>
+        <tr>
+            <td>Age</td>
+            <td><input type="number" id="age"></td>
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td>
+                <input type="radio" name="gender" id="male" value="Male"> Male
+                <input type="radio" name="gender" id="female" value="Female"> Female
+            </td>
+        </tr>
+        <tr>
+            <td>Course</td>
+            <td>
+                <select id="course">
+                    <option value="JavaScript">JavaScript</option>
+                    <option value="Python">Python</option>
+                    <option value="React">React</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="email" id="email"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button onclick="saveDetails()">Save Details</button>
+            </td>
+        </tr>
+    </table>
+
+    <h2>Student Details</h2>
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Course</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        let students = [];
+
+        function saveDetails() {
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const gender = document.querySelector('input[name="gender"]:checked')?.value || '';
+            const course = document.getElementById('course').value;
+            const email = document.getElementById('email').value;
+
+            if (name && age && gender && email) {
+                const student = { name, age, gender, course, email };
+                students.push(student);
+                displayStudents();
+                clearForm();
+            } else {
+                alert('Please fill all fields');
+            }
+        }
+
+        function displayStudents() {
+            const tbody = document.querySelector('                      
+            tbody.innerHTML = '';
+            students.forEach((student, index) => {
+                const row = `<tr>
+                    <td>${student.name}</td>
+                    <td>${student.age}</td>
+                    <td>${student.gender}</td>
+                    <td>${student.course}</td>
+                    <td>${student.email}</td>
+                    <td><button onclick="deleteStudent(${index})">Delete</button></td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function deleteStudent(index) {
+            students.splice(index, 1);
+            displayStudents();
+        }
+
+        function clearForm() {
+            document.getElementById('name').value = '';
+            document.getElementById('age').value = '';
+            document.querySelector('input[name="gender"]:checked').checked = false;
+            document.getElementById('email').value = '';
+        }
+    </script>
+</body>
+</html>
